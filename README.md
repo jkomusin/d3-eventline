@@ -12,7 +12,7 @@ A series of months:
 
 ## Usage
 
-Eventline exposes a number of parameters in order to display datasets in an appealing way. They may be set prior to calling a generated eventline() function to render a plot. They are detailed at the end of the d3.eventline.js source, and their defaults are defined at the top of the source.
+Eventline exposes a number of parameters in order to display datasets in an appealing way. They may be set prior to calling a generated eventline() function to render a plot. They are detailed at the top of the d3.eventline.js source.
 
 Examples (along with CSS styling boilerplate) are available in the `examples/` folder.
 
