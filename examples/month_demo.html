@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="demo.css">
+        <script type="text/javascript" src="lib/d3.min.js"></script>
+        <script type="text/javascript" src="../d3.eventline.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <title>Eventline.js Demo</title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            // Make some test data
+            // Create our own Date helper, the default is wonky
+            Date.prototype.addDays = function(days) {
+                var dat = new Date(this.valueOf());
+                dat.setDate(dat.getDate() + days);
+                return dat;
+            };
+            function newEvent() {
+                var year = 2012;
+                var month = 0;
+                var startD = new Date(
+                    year,
+                    month,
+                    Math.random() * 29 + 1, // avoid making any events start on the last day of Jan
+                    Math.random() * 23,     //  so that we have wiggle room in correcting the end date
+                    Math.random() * 59,     //  if it goes past the end of the month. Also avoid
+                    Math.random() * 50);    //  starting at the 0th day of Jan (Dec 31st).
+                var endD = startD.addDays(4);
+                if (endD.getMonth() > month) { endD.setDate(endD.getDate() - endD.getDay()); }
+                return {
+                    start: startD,
+                    end: endD,
+                    magnitude: m = Math.round(Math.random() * 100)
+                };
+            }
+
+            $(document).ready( function() {
+                // Generate our example data
+                var monthData = [];
+                var months = ["January", "February", "March", "April", "May", "June", "July",
+                    "August", "September", "October", "November", "December"];
+                months.forEach(function(mon, i, arr) {
+                    var monthEvents = d3.range(5).map(newEvent);
+                    monthData.push({
+                        "label": mon,
+                        "events": monthEvents
+                    });
+                });
+
+                // Create our eventline and configure it to our liking
+                var monthline = eventline()
+                    .bandMargin(10)
+                    .labelMargin(70)
+                    .domain([
+                        new Date(2012, 0, 1, 0, 0, 0, 0),
+                        new Date(2012, 0, 31, 23, 59, 59, 999)
+                    ])
+                    .axisArgs({
+                        "labelFormat": "%d",
+                        "tickSize": d3.time.day,
+                        "tickInterval": 1
+                    });
+                // Bind and render the configured eventline
+                d3.select("#monthline")
+                    .datum(monthData)
+                    .call(monthline);
+            });
+        </script>
+
+        <p id="monthline"></p>
+    </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="demo.css">
+        <script type="text/javascript" src="lib/d3.min.js"></script>
+        <script type="text/javascript" src="../d3.eventline.js"></script>
+        <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <title>Eventline.js Demo</title>
+    </head>
+    <body>
+        <script type="text/javascript">
+            // Make some test data
+            // Create our own Date helper, the default is wonky
+            Date.prototype.addDays = function(days) {
+                var dat = new Date(this.valueOf());
+                dat.setDate(dat.getDate() + days);
+                return dat;
+            };
+            function newEvent() {
+                var year = 2012;
+                var startD = new Date(
+                    year,
+                    Math.random() * 11,
+                    Math.random() * 27,
+                    Math.random() * 23,
+                    Math.random() * 59,
+                    Math.random() * 50);
+                var endD = startD.addDays(20);
+                return {
+                    start: startD,
+                    end: endD,
+                    magnitude: m = Math.round(Math.random() * 100)
+                };
+            }
+
+            $(document).ready( function() {
+                // Generate our example data
+                var yearData = [];
+                for (var i = 0; i < 5; i++) {
+                    var yearEvents = d3.range(5).map(newEvent);
+                    yearData.push({
+                        "label": 2000 + i,
+                        "events": yearEvents
+                    });
+                }
+
+                // Create our eventline and configure it to our liking
+                var yearline = eventline()
+                    .bandMargin(10)
+                    .labelMargin(55);
+                // Bind and render the configured eventline
+                d3.select("#yearline")
+                    .datum(yearData)
+                    .call(yearline);
+            });
+        </script>
+
+        <p id="yearline"></p>
+    </body>
+</html>
