@@ -24,10 +24,10 @@ Data bound to Eventline plots should be in an array of eventlines with a `label`
 [
     {"label": "2010", "events": [
         {"start": new Date(), "end": new Date(), "magnitude": 100},
-        {"start": new Date(), "end: new Date(), "magnitude": 100}]},
+        {"start": new Date(), "end": new Date(), "magnitude": 100}]},
     {"label": "2011", "events": [
         {"start": new Date(), "end": new Date(), "magnitude": 100},
-        {"start": new Date(), "end: new Date(), "magnitude": 100}]}
+        {"start": new Date(), "end": new Date(), "magnitude": 100}]}
 ];
 ```
 
